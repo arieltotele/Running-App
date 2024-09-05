@@ -20,19 +20,19 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-//        //load the values from .properties file
-//        val keystoreFile = project.rootProject.file("apikeys.properties")
-//        val properties = Properties()
-//        properties.load(keystoreFile.inputStream())
-//
-//        //return empty key in case something goes wrong
-//        val mapsApiKey = properties.getProperty("MAPS_API_KEY") ?: ""
-//
-//        buildConfigField(
-//            type = "String",
-//            name = "MAPS_API_KEY",
-//            value = mapsApiKey
-//        )
+        //load the values from .properties file
+        val keystoreFile = project.rootProject.file("apikeys.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        //return empty key in case something goes wrong
+        val mapsApiKey = properties.getProperty("MAPS_API_KEY") ?: ""
+
+        buildConfigField(
+            type = "String",
+            name = "MAPS_API_KEY",
+            value = mapsApiKey
+        )
 
     }
 
@@ -54,6 +54,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 }
@@ -83,7 +84,6 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
-    implementation(libs.androidx.navigation.safeArgs)
 
     //Glide
     implementation(libs.glide)
