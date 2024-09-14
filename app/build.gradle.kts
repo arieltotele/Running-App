@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -93,9 +94,9 @@ dependencies {
     implementation(libs.maps.utils)
     implementation(libs.maps.utils.ktx)
 
-    //Dagger
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
+    //Dagger Hilt
+    implementation(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
 
     //EasyPermissions
     implementation(libs.easyPermissions)

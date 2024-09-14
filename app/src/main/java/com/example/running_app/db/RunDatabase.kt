@@ -8,7 +8,6 @@ import com.example.running_app.util.Converters
 @Database(
     entities = [Run::class],
     version = 1,
-
 )
 @TypeConverters(Converters::class)
 abstract class RunDatabase: RoomDatabase() {

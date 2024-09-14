@@ -4,4 +4,5 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.kotlin.ksp) apply false
     alias(libs.plugins.navigation.safeargs) apply false
+    alias(libs.plugins.dagger.hilt) apply false
 }
