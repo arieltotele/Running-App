@@ -1,6 +1,6 @@
 [versions]
-agp = "8.6.0"
-kotlin = "1.9.23"
+agp = "8.6.1"
+kotlin = "2.0.20"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -11,8 +11,8 @@ activity = "1.9.2"
 constraintlayout = "2.1.4"
 roomVersion = "2.6.1"
 coroutinesVersion = "1.7.3"
-kspVersion = "1.9.23-1.0.20"
-navigationVersion = "2.7.7"
+kspVersion = "2.0.20-1.0.25"
+navigationVersion = "2.8.1"
 glideVersion = "4.4.0"
 mapsVersion = "3.8.2"
 mapsKtxVersion = "5.1.0"
@@ -32,7 +32,6 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationVersion" }
 androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationVersion" }
-androidx-navigation-safeArgs = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigationVersion" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }

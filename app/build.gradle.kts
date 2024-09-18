@@ -4,8 +4,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.ksp)
-    alias(libs.plugins.navigation.safeargs)
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.navigation.safeargs)
 }
 
 android {
@@ -57,6 +57,7 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        dataBinding = true
     }
 }
 

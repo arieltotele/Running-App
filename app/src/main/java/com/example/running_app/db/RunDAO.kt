@@ -25,7 +25,7 @@ interface RunDAO {
         CASE WHEN :column = 'speed'  THEN avgSpeedInKMH END DESC,
         CASE WHEN :column = 'distance' THEN distanceInMts END DESC
     """)
-    fun filterBy(column : String) : LiveData<List<Run>>
+    fun getFilteredBy(column : String) : LiveData<List<Run>>
 
     @Query("SELECT SUM(timeInMs) FROM running_table")
     fun getTotalTimeInMs(): LiveData<Long>
