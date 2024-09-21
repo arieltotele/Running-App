@@ -26,6 +26,7 @@
             android:id="@+id/tilName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minEms="10"
             app:layout_constraintBottom_toTopOf="@+id/bottom_constraintLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -36,7 +37,6 @@
                 android:id="@+id/tietName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:hint="@string/your_name"
                 android:inputType="textPersonName" />
 
@@ -46,16 +46,18 @@
             android:id="@+id/tilWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
+            android:minEms="10"
+            app:layout_constraintEnd_toEndOf="@id/tvWeight"
+            app:layout_constraintHorizontal_bias="0.01"
             app:layout_constraintStart_toStartOf="@+id/tilName"
             app:layout_constraintTop_toBottomOf="@+id/tilName">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etWeight"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/your_weight"
-                android:ems="10"
                 android:inputType="numberDecimal" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -64,12 +66,12 @@
             android:id="@+id/tvWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:text="@string/kg"
+            android:layout_marginStart="5dp"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/tilWeight"
             app:layout_constraintLeft_toRightOf="@id/tilWeight"
-            app:layout_constraintTop_toTopOf="@+id/tilWeight" />
+            app:layout_constraintTop_toTopOf="@+id/tilWeight"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottom_constraintLayout"
