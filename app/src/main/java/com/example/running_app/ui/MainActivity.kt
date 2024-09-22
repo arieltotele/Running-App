@@ -1,6 +1,7 @@
 package com.example.running_app.ui
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.running_app.BuildConfig
 import com.example.running_app.R
 import com.example.running_app.databinding.ActivityMainBinding
 import com.example.running_app.util.Constants.REQUEST_CODE_LOCATION_PERMISSIONS
@@ -26,6 +28,16 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        // Read meta-data from AndroidManifest.xml
+        val appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+        val metaData = appInfo.metaData
+
+        // Get value from BuildConfig
+        val mapsApiKey = BuildConfig.MAPS_API_KEY
+
+        // Overwrite meta-data values with BuildConfig
+        metaData.putString("com.google.android.geo.API_KEY", mapsApiKey)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController

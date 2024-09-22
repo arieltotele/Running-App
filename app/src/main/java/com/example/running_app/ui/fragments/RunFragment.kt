@@ -1,7 +1,5 @@
 package com.example.running_app.ui.fragments
 
-import android.Manifest
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +11,7 @@ import com.example.running_app.R
 import com.example.running_app.databinding.FragmentRunBinding
 import com.example.running_app.ui.MainActivity
 import com.example.running_app.ui.viewmodels.RunMainViewModel
-import com.example.running_app.util.Constants.REQUEST_CODE_LOCATION_PERMISSIONS
-import com.example.running_app.util.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
-import pub.devrel.easypermissions.AppSettingsDialog
-import pub.devrel.easypermissions.EasyPermissions
 
 @AndroidEntryPoint
 class RunFragment : Fragment(R.layout.fragment_run) {
