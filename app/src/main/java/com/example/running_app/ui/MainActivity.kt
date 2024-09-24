@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
 
     fun requestPermissions(bgLocation: Boolean = false){
         if (TrackingUtility.hasLocationPermissions(this)){ return }
-        if (bgLocation && Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+        if (bgLocation && Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
             EasyPermissions.requestPermissions(
                 this,
                 "You need to \"Allow all the time\" to track runs in background.",
