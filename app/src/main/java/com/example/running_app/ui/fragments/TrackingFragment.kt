@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.running_app.databinding.FragmentTrackingBinding
 import com.example.running_app.services.TrackingService
+import com.example.running_app.ui.MainActivity
 import com.example.running_app.ui.viewmodels.RunMainViewModel
 import com.example.running_app.util.Constants.ACTION_START_OR_RESUME_SERVICE
+import com.example.running_app.util.TrackingUtility
 import com.google.android.gms.maps.GoogleMap
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +39,12 @@ class TrackingFragment : Fragment() {
         binding.mapView.getMapAsync { map = it }
 
         binding.btnToggleRun.setOnClickListener {
-            sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
+            if(TrackingUtility.hasNotificationPermission(requireContext())){
+                sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
+            }else{
+                (activity as MainActivity).requestNotificationPermissions()
+            }
+
         }
     }
 

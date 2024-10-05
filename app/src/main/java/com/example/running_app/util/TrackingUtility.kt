@@ -22,4 +22,10 @@ object TrackingUtility {
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             )
         }
+
+    fun hasNotificationPermission(context: Context) =
+        EasyPermissions.hasPermissions(
+            context,
+            Manifest.permission.POST_NOTIFICATIONS
+        )
 }

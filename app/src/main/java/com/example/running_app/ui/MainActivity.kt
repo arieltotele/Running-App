@@ -1,6 +1,7 @@
 package com.example.running_app.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -12,7 +13,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.running_app.BuildConfig
 import com.example.running_app.R
 import com.example.running_app.databinding.ActivityMainBinding
+import com.example.running_app.util.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import com.example.running_app.util.Constants.REQUEST_CODE_LOCATION_PERMISSIONS
+import com.example.running_app.util.Constants.REQUEST_CODE_NOTIFICATION_PERMISSIONS
 import com.example.running_app.util.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -22,6 +25,7 @@ import pub.devrel.easypermissions.EasyPermissions
 class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navHostFragment: NavHostFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +43,8 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
         // Overwrite meta-data values with BuildConfig
         metaData.putString("com.google.android.geo.API_KEY", mapsApiKey)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
+        navHostFragment = supportFragmentManager.
+        findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
 
         setSupportActionBar(binding.toolbar)
@@ -51,6 +56,33 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
                     else -> View.GONE
                 }
         }
+
+        navigateToTrackingFragmentIfNeeded(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        navigateToTrackingFragmentIfNeeded(intent)
+    }
+
+    private fun navigateToTrackingFragmentIfNeeded(intent: Intent?){
+        if (intent?.action == ACTION_SHOW_TRACKING_FRAGMENT){
+            navHostFragment.findNavController().navigate(R.id.action_global_trackingFragment)
+        }
+    }
+
+    fun requestNotificationPermissions(){
+        if (TrackingUtility.hasNotificationPermission(this)){
+            return
+        }else {
+            EasyPermissions.requestPermissions(
+                this,
+                "You need to accept location permissions to use this app.",
+                REQUEST_CODE_NOTIFICATION_PERMISSIONS,
+                Manifest.permission.POST_NOTIFICATIONS
+            )
+        }
+
     }
 
     fun requestPermissions(bgLocation: Boolean = false){
@@ -60,7 +92,8 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
                 this,
                 "You need to \"Allow all the time\" to track runs in background.",
                 REQUEST_CODE_LOCATION_PERMISSIONS,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                Manifest.permission.FOREGROUND_SERVICE_LOCATION
             )
         } else {
             EasyPermissions.requestPermissions(
@@ -68,8 +101,8 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
                 "You need to accept location permissions to use this app.",
                 REQUEST_CODE_LOCATION_PERMISSIONS,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                )
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
         }
 
     }
@@ -81,6 +114,7 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
             AppSettingsDialog.Builder(this).build().show()
         }else{
             requestPermissions()
+            requestNotificationPermissions()
         }
     }
 
