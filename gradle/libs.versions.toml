@@ -20,6 +20,7 @@ daggerHiltVersion = "2.51.1"
 easyPermissionsVersion = "3.0.0"
 timberVersion = "5.0.1"
 mpAndroidChartVersion = "v3.1.0"
+playServicesLocation = "21.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,6 +46,7 @@ dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compi
 easyPermissions = { group = "pub.devrel", name = "easypermissions", version.ref = "easyPermissionsVersion" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timberVersion" }
 mpAndroidChart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChartVersion" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

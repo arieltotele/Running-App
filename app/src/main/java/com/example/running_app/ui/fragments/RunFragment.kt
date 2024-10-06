@@ -11,6 +11,7 @@ import com.example.running_app.R
 import com.example.running_app.databinding.FragmentRunBinding
 import com.example.running_app.ui.MainActivity
 import com.example.running_app.ui.viewmodels.RunMainViewModel
+import com.example.running_app.util.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,8 +36,12 @@ class RunFragment : Fragment(R.layout.fragment_run) {
         (activity as MainActivity).requestPermissions(true)
 
         binding.btnAdd.setOnClickListener {
-            val action = RunFragmentDirections.toTrackingFragment()
-            findNavController().navigate(action)
+            if(TrackingUtility.hasLocationPermissions(requireContext())){
+                val action = RunFragmentDirections.toTrackingFragment()
+                findNavController().navigate(action)
+            }else{
+                (activity as MainActivity).requestNotificationPermissions()
+            }
         }
     }
 
