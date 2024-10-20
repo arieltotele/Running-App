@@ -1,5 +1,7 @@
 package com.example.running_app.util
 
+import android.graphics.Color
+
 object Constants {
     const val RUN_DATABASE_NAME = "run_db"
 
@@ -18,4 +20,9 @@ object Constants {
     const val LOCATION_UPDATE_DELAY = 5000L
     const val FASTEST_LOCATION_DELAY = 2000L
     const val LOCATION_MAX_DELAY_INTERVAL = 10000L
+
+    const val POLYLINE_COLOR = Color.RED
+    const val POLYLINE_WIDTH = 8f
+    const val MAP_ZOOM_IN_FOCUS = 15f
+
 }
