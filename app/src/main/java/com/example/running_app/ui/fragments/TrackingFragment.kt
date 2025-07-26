@@ -34,6 +34,8 @@ class TrackingFragment : Fragment() {
     private var isTracking = false
     private var locationPoints = mutableListOf<Polyline>()
 
+    private var currentTimeInMillis = 0L
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,6 +74,12 @@ class TrackingFragment : Fragment() {
             locationPoints = it
             addLatestPolyline()
             focusCameraInLocation()
+        })
+
+        TrackingService.timeRunInMilliseconds.observe(viewLifecycleOwner, Observer{
+            currentTimeInMillis = it
+            val formattedTime = TrackingUtility.getFormatStopWatchTime(currentTimeInMillis, true)
+            binding.tvTimer.text = formattedTime
         })
     }
 

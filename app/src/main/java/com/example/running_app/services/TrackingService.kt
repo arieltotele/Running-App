@@ -152,6 +152,8 @@ class TrackingService: LifecycleService() {
     private fun postInitialValues(){
         isTrackingActive.postValue(true)
         locationPoints.postValue(mutableListOf())
+        timeRunInSeconds.postValue(0L)
+        timeRunInMilliseconds.postValue(0L)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
