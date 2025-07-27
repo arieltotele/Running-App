@@ -207,7 +207,6 @@ class TrackingService: LifecycleService() {
                         Timber.d("Resuming service...")
                         startTimer()
                     }
-
                 }
                 ACTION_PAUSE_SERVICE -> {
                     Timber.d("Service paused")
