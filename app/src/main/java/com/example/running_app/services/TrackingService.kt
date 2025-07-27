@@ -105,7 +105,7 @@ class TrackingService: LifecycleService() {
                 }
                 delay(INTERVAL_TIME_UPDATE)
             }
-            totalTimeOfRun += lapStartTime;
+            totalTimeOfRun += lapStartTime
         }
     }
 
@@ -225,16 +225,6 @@ class TrackingService: LifecycleService() {
         isTrackingActive.postValue(false)
         isTimerEnabled = false
     }
-
-    private fun getMainActivityPendingIntent() = PendingIntent.getActivity(
-        this,
-        0,
-        Intent(this, MainActivity::class.java).also {
-            it.action = ACTION_SHOW_TRACKING_FRAGMENT
-        },
-        FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE,
-
-    )
 
     private fun starForegroundService(){
         startTimer()
