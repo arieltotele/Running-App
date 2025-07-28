@@ -3,11 +3,19 @@ package com.example.running_app.ui.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.example.running_app.R
 import com.example.running_app.databinding.FragmentTrackingBinding
 import com.example.running_app.services.Polyline
 import com.example.running_app.services.TrackingService
@@ -15,6 +23,7 @@ import com.example.running_app.ui.MainActivity
 import com.example.running_app.ui.viewmodels.RunMainViewModel
 import com.example.running_app.util.Constants.ACTION_PAUSE_SERVICE
 import com.example.running_app.util.Constants.ACTION_START_OR_RESUME_SERVICE
+import com.example.running_app.util.Constants.ACTION_STOP_SERVICE
 import com.example.running_app.util.Constants.MAP_ZOOM_IN_FOCUS
 import com.example.running_app.util.Constants.POLYLINE_COLOR
 import com.example.running_app.util.Constants.POLYLINE_WIDTH
@@ -22,6 +31,8 @@ import com.example.running_app.util.TrackingUtility
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.dialog.MaterialDialogs
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +47,8 @@ class TrackingFragment : Fragment() {
 
     private var currentTimeInMillis = 0L
 
+    private var toolbarMenu: Menu? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,8 +58,31 @@ class TrackingFragment : Fragment() {
         val view = binding.root
         return view
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.toolbar_tracking_menu, menu)
+                toolbarMenu = menu
+
+                val cancelMenuItem = menu.findItem(R.id.mICancelRun)
+                cancelMenuItem?.isVisible = currentTimeInMillis > 0L && !isTracking
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                     R.id.mICancelRun -> {
+                         showCancelTrackingDialog()
+                         true
+                     }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED) // Asocia el MenuProvider con el ciclo de vida del Fragment
 
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
@@ -63,6 +99,28 @@ class TrackingFragment : Fragment() {
         }
 
         subscribeToObservers()
+    }
+
+    private fun showCancelTrackingDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+            .setTitle("Do you want to cancel the run?")
+            .setMessage("Are you sure you want to cancel the current run and delete all its data?")
+            .setIcon(R.drawable.ic_delete)
+            .setPositiveButton("Yes") { _, _ ->
+                stopRun()
+            }
+            .setNegativeButton("No") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
+            .create()
+            dialog.show()
+    }
+
+    private fun stopRun(){
+        sendCommandToService(ACTION_STOP_SERVICE)
+
+        val action = TrackingFragmentDirections.trackingFragmentToRunFragment()
+        findNavController().navigate(action)
     }
 
     private fun subscribeToObservers(){
@@ -85,6 +143,7 @@ class TrackingFragment : Fragment() {
 
     private fun toggleRun(){
         if (isTracking){
+            toolbarMenu?.getItem(0)?.isVisible = true
             sendCommandToService(ACTION_PAUSE_SERVICE)
         }else{
             sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
@@ -98,6 +157,7 @@ class TrackingFragment : Fragment() {
             binding.btnFinishRun.visibility = View.VISIBLE
         }else{
             binding.btnToggleRun.text = "Stop"
+            toolbarMenu?.getItem(0)?.isVisible = true
             binding.btnFinishRun.visibility = View.GONE
         }
     }
