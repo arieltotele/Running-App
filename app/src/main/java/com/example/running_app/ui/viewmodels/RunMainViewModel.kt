@@ -9,8 +9,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RunMainViewModel @Inject constructor(val runRepository: RunRepository)
-    :ViewModel() {
+class RunMainViewModel @Inject constructor(val runRepository: RunRepository):ViewModel() {
+
+    val runsSortedByDate = runRepository.getFilteredBy("timestamp")
+
     fun insertRun(newRun: Run) {
         viewModelScope.launch {
             runRepository.upsertRun(newRun)

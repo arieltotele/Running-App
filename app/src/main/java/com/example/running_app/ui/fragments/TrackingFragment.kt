@@ -9,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -22,6 +23,7 @@ import com.example.running_app.db.Run
 import com.example.running_app.services.Polyline
 import com.example.running_app.services.TrackingService
 import com.example.running_app.ui.MainActivity
+import com.example.running_app.ui.adapters.RunAdapter
 import com.example.running_app.ui.viewmodels.RunMainViewModel
 import com.example.running_app.util.Constants.ACTION_PAUSE_SERVICE
 import com.example.running_app.util.Constants.ACTION_START_OR_RESUME_SERVICE
@@ -32,7 +34,6 @@ import com.example.running_app.util.Constants.POLYLINE_WIDTH
 import com.example.running_app.util.TrackingUtility
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
