@@ -21,6 +21,8 @@ easyPermissionsVersion = "3.0.0"
 timberVersion = "5.0.1"
 mpAndroidChartVersion = "v3.1.0"
 playServicesLocation = "21.3.0"
+coreLibraryDesugaring = "2.1.5"
+playServicesMap = "19.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,6 +49,8 @@ easyPermissions = { group = "pub.devrel", name = "easypermissions", version.ref 
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timberVersion" }
 mpAndroidChart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChartVersion" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+core-library-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "coreLibraryDesugaring" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMap" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

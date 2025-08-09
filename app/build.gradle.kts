@@ -49,6 +49,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -73,6 +74,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    coreLibraryDesugaring(libs.core.library.desugaring)
+
     //room
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
@@ -95,6 +98,8 @@ dependencies {
     // Google Maps
     implementation(libs.maps.utils)
     implementation(libs.maps.utils.ktx)
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.maps)
 
     //Dagger Hilt
     implementation(libs.dagger.hilt)

@@ -2,6 +2,7 @@ package com.example.running_app.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -17,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.running_app.R
 import com.example.running_app.databinding.FragmentTrackingBinding
+import com.example.running_app.db.Run
 import com.example.running_app.services.Polyline
 import com.example.running_app.services.TrackingService
 import com.example.running_app.ui.MainActivity
@@ -30,9 +32,13 @@ import com.example.running_app.util.Constants.POLYLINE_WIDTH
 import com.example.running_app.util.TrackingUtility
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment() {
@@ -47,6 +53,8 @@ class TrackingFragment : Fragment() {
     private var currentTimeInMillis = 0L
 
     private var toolbarMenu: Menu? = null
+
+    private var weight = 80f
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,6 +105,11 @@ class TrackingFragment : Fragment() {
             }
         }
 
+        binding.btnFinishRun.setOnClickListener {
+            zoomInOnUser()
+            finishRunAndSaveToDb()
+        }
+
         subscribeToObservers()
     }
 
@@ -112,11 +125,12 @@ class TrackingFragment : Fragment() {
                 dialogInterface.cancel()
             }
             .create()
-            dialog.show()
+        dialog.show()
     }
 
     private fun stopRun(){
         sendCommandToService(ACTION_STOP_SERVICE)
+        isTracking = false
 
         val action = TrackingFragmentDirections.trackingFragmentToRunFragment()
         findNavController().navigate(action)
@@ -169,6 +183,46 @@ class TrackingFragment : Fragment() {
                     MAP_ZOOM_IN_FOCUS
                 )
             )
+        }
+    }
+
+    private fun zoomInOnUser() {
+        val bounds = LatLngBounds.Builder()
+        for (polyline in locationPoints) {
+            for (position in polyline) {
+                bounds.include(position)
+            }
+        }
+
+        map?.moveCamera(
+            CameraUpdateFactory.newLatLngBounds(
+                bounds.build(),
+                binding.mapView.width,
+                binding.mapView.height,
+                (binding.mapView.height * 0.05f).toInt()
+            )
+        )
+    }
+
+
+    private fun finishRunAndSaveToDb() {
+        map?.snapshot { bitmap ->
+            var distanceInMeters = 0
+            for (polyline in locationPoints) {
+                distanceInMeters += TrackingUtility.calculatePolylineDistance(polyline).toInt()
+            }
+            val averageSpeed = (distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60)
+            val dateTimestamp = Calendar.getInstance().timeInMillis
+            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
+            val newRun =
+                Run(
+                    bitmap, dateTimestamp, averageSpeed,
+                    distanceInMeters, currentTimeInMillis, caloriesBurned
+                )
+            viewModel.insertRun(newRun)
+
+            Snackbar.make(requireView(), "Run saved successfully", Snackbar.LENGTH_LONG).show()
+            stopRun()
         }
     }
 

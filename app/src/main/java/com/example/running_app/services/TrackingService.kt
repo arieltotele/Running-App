@@ -13,15 +13,12 @@ import android.content.Intent
 import android.location.Location
 import android.os.Build
 import android.os.Looper
-import android.view.Menu
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.running_app.R
-import com.example.running_app.ui.MainActivity
 import com.example.running_app.util.Constants.ACTION_PAUSE_SERVICE
-import com.example.running_app.util.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import com.example.running_app.util.Constants.ACTION_START_OR_RESUME_SERVICE
 import com.example.running_app.util.Constants.ACTION_STOP_SERVICE
 import com.example.running_app.util.Constants.FASTEST_LOCATION_DELAY
@@ -196,9 +193,9 @@ class TrackingService: LifecycleService() {
 
     private fun addLocationPoint(location: Location){
         location.let {
-            val position = LatLng(location.latitude, location.longitude)
+            val currentPosition = LatLng(location.latitude, location.longitude)
             locationPoints.value?.apply {
-                last().add(position)
+                last().add(currentPosition)
                 locationPoints.postValue(this)
             }
         }
@@ -210,7 +207,7 @@ class TrackingService: LifecycleService() {
     } ?: locationPoints.postValue(mutableListOf((mutableListOf())))
 
     private fun postInitialValues(){
-        isTrackingActive.postValue(true)
+        isTrackingActive.postValue(false)
         locationPoints.postValue(mutableListOf())
         timeRunInSeconds.postValue(0L)
         timeRunInMilliseconds.postValue(0L)
