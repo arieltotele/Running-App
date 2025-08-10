@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +17,7 @@ import com.example.running_app.db.Run
 import com.example.running_app.ui.MainActivity
 import com.example.running_app.ui.adapters.RunAdapter
 import com.example.running_app.ui.viewmodels.RunMainViewModel
+import com.example.running_app.util.SortType
 import com.example.running_app.util.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,9 +45,29 @@ class RunFragment : Fragment(R.layout.fragment_run) {
 
         setupRecyclerView()
 
-        viewModel.runsSortedByDate.observe(viewLifecycleOwner, Observer {
-            runAdapter.submitList(it)
+        viewModel.runs.observe(viewLifecycleOwner, Observer { runList ->
+            runAdapter.submitList(runList)
         })
+
+        binding.spnFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when(position){
+                    0 -> viewModel.sortRuns(SortType.DATE)
+                    1 -> viewModel.sortRuns(SortType.RUNNING_TIME)
+                    2 -> viewModel.sortRuns(SortType.DISTANCE)
+                    3 -> viewModel.sortRuns(SortType.AVG_SPEED)
+                    4 -> viewModel.sortRuns(SortType.CALORIES_BURNED)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+        }
 
         binding.btnAdd.setOnClickListener {
             if(TrackingUtility.hasLocationPermissions(requireContext())){

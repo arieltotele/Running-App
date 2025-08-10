@@ -20,10 +20,10 @@ interface RunDAO {
         SELECT * FROM running_table
         ORDER BY 
         CASE WHEN :column = 'timestamp'  THEN timestamp END DESC,
-        CASE WHEN :column = 'timeinms' THEN timeInMs END DESC,
-        CASE WHEN :column = 'calories' THEN caloriesBurned END DESC,
-        CASE WHEN :column = 'speed'  THEN avgSpeedInKMH END DESC,
-        CASE WHEN :column = 'distance' THEN distanceInMts END DESC
+        CASE WHEN :column = 'timeInMs' THEN timeInMs END DESC,
+        CASE WHEN :column = 'caloriesBurned' THEN caloriesBurned END DESC,
+        CASE WHEN :column = 'avgSpeedInKMH'  THEN avgSpeedInKMH END DESC,
+        CASE WHEN :column = 'distanceInMts' THEN distanceInMts END DESC
     """)
     fun getFilteredBy(column : String) : LiveData<List<Run>>
 
@@ -32,8 +32,8 @@ interface RunDAO {
 
     @Query("""
         SELECT 
-            CASE WHEN :column = 'calories' THEN SUM(caloriesBurned)
-                 WHEN :column = 'distance' THEN SUM(distanceInMts)
+            CASE WHEN :column = 'caloriesBurned' THEN SUM(caloriesBurned)
+                 WHEN :column = 'distanceInMts' THEN SUM(distanceInMts)
                  ELSE 0 END as result
         FROM running_table
     """)
