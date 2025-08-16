@@ -113,4 +113,10 @@ dependencies {
 
     //MPAndroidChart
     implementation(libs.mpAndroidChart)
+
+    //DataStore
+    implementation(libs.datastore)
+
+    //LiveData
+    implementation(libs.liveData)
 }

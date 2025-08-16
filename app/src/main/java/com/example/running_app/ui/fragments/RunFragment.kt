@@ -66,7 +66,6 @@ class RunFragment : Fragment(R.layout.fragment_run) {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
-
         }
 
         binding.btnAdd.setOnClickListener {

@@ -23,6 +23,8 @@ mpAndroidChartVersion = "v3.1.0"
 playServicesLocation = "21.3.0"
 coreLibraryDesugaring = "2.1.5"
 playServicesMap = "19.2.0"
+dataStoreVersion = "1.1.7"
+liveDataVersion = "2.8.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +53,8 @@ mpAndroidChart = { group = "com.github.PhilJay", name = "MPAndroidChart", versio
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 core-library-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "coreLibraryDesugaring" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMap" }
+datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStoreVersion" }
+liveData = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "liveDataVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

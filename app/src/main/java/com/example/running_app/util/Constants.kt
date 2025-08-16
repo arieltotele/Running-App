@@ -27,4 +27,5 @@ object Constants {
 
     const val INTERVAL_TIME_UPDATE = 50L
 
+    const val USER_PROFILE_PREFERENCES = "user_profile_preferences"
 }

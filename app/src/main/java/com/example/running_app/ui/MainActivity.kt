@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.running_app.BuildConfig
 import com.example.running_app.R
 import com.example.running_app.databinding.ActivityMainBinding
+import com.example.running_app.ui.viewmodels.UserProfileViewModel
 import com.example.running_app.util.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import com.example.running_app.util.Constants.REQUEST_CODE_LOCATION_PERMISSIONS
 import com.example.running_app.util.Constants.REQUEST_CODE_NOTIFICATION_PERMISSIONS
@@ -63,6 +65,10 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         navigateToTrackingFragmentIfNeeded(intent)
+    }
+
+    fun setCustomToolbarTitle(title: String) {
+        binding.tvToolbarTitle.text = title
     }
 
     private fun navigateToTrackingFragmentIfNeeded(intent: Intent?){
