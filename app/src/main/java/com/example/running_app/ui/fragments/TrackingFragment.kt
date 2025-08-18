@@ -2,14 +2,12 @@ package com.example.running_app.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -23,8 +21,8 @@ import com.example.running_app.db.Run
 import com.example.running_app.services.Polyline
 import com.example.running_app.services.TrackingService
 import com.example.running_app.ui.MainActivity
-import com.example.running_app.ui.adapters.RunAdapter
 import com.example.running_app.ui.viewmodels.RunMainViewModel
+import com.example.running_app.ui.viewmodels.UserProfileViewModel
 import com.example.running_app.util.Constants.ACTION_PAUSE_SERVICE
 import com.example.running_app.util.Constants.ACTION_START_OR_RESUME_SERVICE
 import com.example.running_app.util.Constants.ACTION_STOP_SERVICE
@@ -39,11 +37,14 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.util.Calendar
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment() {
-    private val viewModel: RunMainViewModel by viewModels()
+    private val runMainViewModel: RunMainViewModel by viewModels()
+    private val userProfileViewModel: UserProfileViewModel by viewModels()
+
     private var _binding: FragmentTrackingBinding? = null
     private val binding get() = _binding!!
     private var map: GoogleMap? = null
@@ -55,7 +56,7 @@ class TrackingFragment : Fragment() {
 
     private var toolbarMenu: Menu? = null
 
-    private var weight = 80f
+    private var currentUserWeight: Float = 80f
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,7 +91,7 @@ class TrackingFragment : Fragment() {
                     else -> false
                 }
             }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED) // Asocia el MenuProvider con el ciclo de vida del Fragment
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
@@ -112,6 +113,17 @@ class TrackingFragment : Fragment() {
         }
 
         subscribeToObservers()
+        subscribeToUserSettingsObservers()
+    }
+
+    private fun subscribeToUserSettingsObservers() {
+        userProfileViewModel.userProfile.observe(viewLifecycleOwner, Observer{ userProfile ->
+            if (userProfile != null && userProfile.weight > 0f){
+                currentUserWeight = userProfile.weight
+            }else{
+                Timber.d( "User profile is null or weight is not valid: ${userProfile?.weight}" )
+            }
+        })
     }
 
     private fun showCancelTrackingDialog() {
@@ -214,15 +226,16 @@ class TrackingFragment : Fragment() {
             }
             val averageSpeed = (distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60)
             val dateTimestamp = Calendar.getInstance().timeInMillis
-            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
+            val caloriesBurned = ((distanceInMeters / 1000f) * currentUserWeight).toInt()
             val newRun =
                 Run(
                     bitmap, dateTimestamp, averageSpeed,
                     distanceInMeters, currentTimeInMillis, caloriesBurned
                 )
-            viewModel.insertRun(newRun)
+            runMainViewModel.insertRun(newRun)
 
-            Snackbar.make(requireView(), "Run saved successfully", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(requireView(), "Run saved successfully",
+                Snackbar.LENGTH_LONG).show()
             stopRun()
         }
     }
