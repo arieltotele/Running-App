@@ -4,13 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.running_app.R
 import com.example.running_app.databinding.FragmentStatisticsBinding
 import com.example.running_app.ui.viewmodels.RunStatisticsViewModel
+import com.example.running_app.util.CustomMarkerView
 import com.example.running_app.util.TrackingUtility
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.round
 
@@ -26,7 +32,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentStatisticsBinding.inflate(inflater, container, false)
+        _binding = FragmentStatisticsBinding.inflate(inflater, container,
+            false)
         val view = binding.root
         return view
     }
@@ -34,6 +41,32 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeToObservers()
+        setupBarChart()
+    }
+
+    private fun setupBarChart(){
+        binding.barChart.xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawLabels(false)
+            axisLineColor = R.color.colorAccent
+            textColor = R.color.colorAccent
+            setDrawGridLines(false)
+        }
+        binding.barChart.axisLeft.apply {
+            axisLineColor = R.color.colorAccent
+            textColor = R.color.colorAccent
+            setDrawGridLines(false)
+        }
+        binding.barChart.axisRight.apply {
+            axisLineColor = R.color.colorAccent
+            textColor = R.color.colorAccent
+            setDrawGridLines(false)
+        }
+
+        binding.barChart.apply {
+            description.text = "Avg Speed Over Time"
+            legend.isEnabled = false
+        }
     }
 
     private fun subscribeToObservers(){
@@ -67,5 +100,29 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 binding.tvTotalCalories.text = totalCaloriesBurnedString
             }
         })
+
+        viewModel.runsSortedByDate.observe(viewLifecycleOwner){ runsSortedByDate ->
+            runsSortedByDate.let {
+                val allAvgSpeeds = it.indices.map { i ->
+                    BarEntry(
+                        i.toFloat(),
+                        it[i].avgSpeedInKMH
+                    )
+                }
+                val barDataSet = BarDataSet(allAvgSpeeds,
+                    "Avg Speed Over Time").apply {
+                    valueTextColor = R.color.white
+                    color = ContextCompat.getColor(requireContext(),
+                        R.color.colorAccent)
+                }
+
+                binding.barChart.data = BarData(barDataSet)
+                binding.barChart.marker =
+                    CustomMarkerView(it.reversed(), requireContext(),
+                        R.layout.marker_view)
+                binding.barChart.invalidate()
+
+            }
+        }
     }
 }
