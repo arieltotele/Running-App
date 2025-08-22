@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -22,12 +23,14 @@ import com.example.running_app.util.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navHostFragment: NavHostFragment
+    private val userProfileViewModel: UserProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,7 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
 
         setSupportActionBar(binding.toolbar)
         binding.bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.setOnItemReselectedListener { /* Do-Nothing */ }
 
         navHostFragment.findNavController().addOnDestinationChangedListener{ _, destination, _ ->
                 binding.bottomNavigationView.visibility = when (destination.id) {
@@ -59,16 +63,20 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
                 }
         }
 
+        userProfileViewModel.userProfile.observe(this, Observer { userProfile ->
+            if (userProfile != null && userProfile.weight > 0f){
+                binding.tvToolbarTitle.text = "Let's go, ${userProfile.name}!"
+            }else{
+                Timber.d( "User profile is null or weight is not valid: ${userProfile?.weight}" )
+            }
+        })
+
         navigateToTrackingFragmentIfNeeded(intent)
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         navigateToTrackingFragmentIfNeeded(intent)
-    }
-
-    fun setCustomToolbarTitle(title: String) {
-        binding.tvToolbarTitle.text = title
     }
 
     private fun navigateToTrackingFragmentIfNeeded(intent: Intent?){

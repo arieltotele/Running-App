@@ -18,17 +18,6 @@ class UserProfileViewModel @Inject constructor(
 
     val userProfile = userProfileRepository.userProfileFlow.asLiveData()
 
-    fun saveUserName(name: String) {
-        viewModelScope.launch {
-            userProfileRepository.updateUserName(name)
-        }
-    }
-
-    fun saveUserWeight(weight: Float) {
-        viewModelScope.launch {
-            userProfileRepository.updateUserWeight(weight)
-        }
-    }
     fun setAppOpened() {
         viewModelScope.launch {
             userProfileRepository.updateIsFirstAppOpen(false)

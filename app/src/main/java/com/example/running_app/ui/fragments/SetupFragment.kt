@@ -37,9 +37,6 @@ class SetupFragment : Fragment() {
 
         viewModel.userProfile.observe(viewLifecycleOwner){
             if(!it.isFirstAppOpen){
-                val newTitle = "Let's go, ${it.name}!"
-                (requireActivity() as? MainActivity)?.setCustomToolbarTitle(newTitle)
-
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(R.id.setupFragment, true)
                     .build()

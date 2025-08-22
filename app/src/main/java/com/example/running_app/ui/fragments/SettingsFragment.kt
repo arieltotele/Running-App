@@ -50,7 +50,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 viewModel.saveUserProfile(name, weight)
                 Snackbar.make(requireView(), "Changes saved successfully",
                     Snackbar.LENGTH_SHORT).show()
-                (requireActivity() as? MainActivity)?.setCustomToolbarTitle("Let's go, $name!")
             }else{
                 Snackbar.make(requireView(), "All fields must be filled",
                     Snackbar.LENGTH_SHORT).show()

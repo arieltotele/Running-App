@@ -40,6 +40,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.Calendar
 
+const val CANCEL_TRACKING_DIALOG_TAG = "CancelDialog"
+
 @AndroidEntryPoint
 class TrackingFragment : Fragment() {
     private val runMainViewModel: RunMainViewModel by viewModels()
@@ -99,6 +101,16 @@ class TrackingFragment : Fragment() {
             addAllPolylines()
         }
 
+        if (savedInstanceState != null){
+            val cancelRunTrackingDialog =
+                parentFragmentManager.findFragmentByTag(CANCEL_TRACKING_DIALOG_TAG) as
+                        CancelRunTrackingDialog?
+            cancelRunTrackingDialog?.setDialogListener {
+                stopRun()
+            }
+
+        }
+
         binding.btnToggleRun.setOnClickListener {
             if(TrackingUtility.hasNotificationPermission(requireContext())){
                 toggleRun()
@@ -127,21 +139,15 @@ class TrackingFragment : Fragment() {
     }
 
     private fun showCancelTrackingDialog() {
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
-            .setTitle("Do you want to cancel the run?")
-            .setMessage("Are you sure you want to cancel the current run and delete all its data?")
-            .setIcon(R.drawable.ic_delete)
-            .setPositiveButton("Yes") { _, _ ->
+        CancelRunTrackingDialog().apply {
+            setDialogListener {
                 stopRun()
             }
-            .setNegativeButton("No") { dialogInterface, _ ->
-                dialogInterface.cancel()
-            }
-            .create()
-        dialog.show()
+        }.show(parentFragmentManager, CANCEL_TRACKING_DIALOG_TAG)
     }
 
     private fun stopRun(){
+        binding.tvTimer.text = "00:00:00:00"
         sendCommandToService(ACTION_STOP_SERVICE)
         isTracking = false
 
@@ -178,10 +184,10 @@ class TrackingFragment : Fragment() {
 
     private fun updateTracking(isTracking: Boolean){
         this.isTracking = isTracking
-        if (!isTracking){
+        if (!isTracking && currentTimeInMillis > 0L){
             binding.btnToggleRun.text = "Start"
             binding.btnFinishRun.visibility = View.VISIBLE
-        }else{
+        }else if(isTracking){
             binding.btnToggleRun.text = "Stop"
             toolbarMenu?.getItem(0)?.isVisible = true
             binding.btnFinishRun.visibility = View.GONE
