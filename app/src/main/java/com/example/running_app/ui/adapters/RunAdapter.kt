@@ -13,7 +13,7 @@ import com.example.running_app.util.TrackingUtility
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class RunAdapter (private val onItemClicked: (Run) -> Unit)
+class RunAdapter (private val onItemClicked: (Run) -> Unit = {})
     : ListAdapter<Run, RunAdapter.RunViewHolder>(DiffCallback()) {
     inner class RunViewHolder(private val binding: ItemRunBinding) :
         RecyclerView.ViewHolder(binding.root) {

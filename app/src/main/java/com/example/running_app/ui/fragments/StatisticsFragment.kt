@@ -45,29 +45,33 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     }
 
     private fun setupBarChart(){
+        val whiteColor = ContextCompat.getColor(requireContext(), R.color.white)
+
         binding.barChart.xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM
-            setDrawLabels(false)
-            axisLineColor = R.color.colorAccent
-            textColor = R.color.colorAccent
+            setDrawLabels(true) // ← pon esto en true si quieres ver números abajo
+            axisLineColor = whiteColor
+            textColor = whiteColor
             setDrawGridLines(false)
         }
         binding.barChart.axisLeft.apply {
-            axisLineColor = R.color.colorAccent
-            textColor = R.color.colorAccent
+            axisLineColor = whiteColor
+            textColor = whiteColor
             setDrawGridLines(false)
         }
         binding.barChart.axisRight.apply {
-            axisLineColor = R.color.colorAccent
-            textColor = R.color.colorAccent
+            axisLineColor = whiteColor
+            textColor = whiteColor
             setDrawGridLines(false)
         }
 
         binding.barChart.apply {
             description.text = "Avg Speed Over Time"
+            description.textColor = whiteColor
             legend.isEnabled = false
         }
     }
+
 
     private fun subscribeToObservers(){
         viewModel.totalTimeRun.observe(viewLifecycleOwner, Observer { totalTime ->

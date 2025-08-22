@@ -28,9 +28,8 @@ class CustomMarkerView (val runs: List<Run>, context: Context, layoutId: Int) :
     }
 
     override fun refreshContent(e: Entry?, highlight: Highlight?) {
-        if (e == null) {
-            return
-        }
+        if (e == null) return
+
         val currentRunId = e.x.toInt()
         val run = runs[currentRunId]
 
@@ -38,19 +37,16 @@ class CustomMarkerView (val runs: List<Run>, context: Context, layoutId: Int) :
             timeInMillis = run.timestamp
         }
         val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
-        binding!!.tvDate.text = dateFormat.format(calendar.time)
 
-        val avgSpeed = "${run.avgSpeedInKMH}km/h"
-        binding!!.tvAvgSpeed.text = avgSpeed
-
-        val distanceInKm = "${run.distanceInMts / 1000f}km"
-        binding!!.tvDistance.text = distanceInKm
-
-        binding!!.tvDuration.text = TrackingUtility.getFormatStopWatchTime(run.timeInMs)
-
-        val caloriesBurned = "${run.caloriesBurned}kcal"
-        binding!!.tvCaloriesBurned.text = caloriesBurned
+        binding?.apply {
+            tvDate.text = dateFormat.format(calendar.time)
+            tvDuration.text = TrackingUtility.getFormatStopWatchTime(run.timeInMs)
+            tvAvgSpeed.text = "${run.avgSpeedInKMH} km/h"
+            tvDistance.text = "${(run.distanceInMts / 1000f)} km"
+            tvCaloriesBurned.text = "${run.caloriesBurned} kcal"
+        }
 
         super.refreshContent(e, highlight)
     }
+
 }

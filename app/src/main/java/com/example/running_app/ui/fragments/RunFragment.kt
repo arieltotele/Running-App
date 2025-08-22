@@ -79,10 +79,7 @@ class RunFragment : Fragment(R.layout.fragment_run) {
     }
 
     private fun setupRecyclerView(){
-        runAdapter = RunAdapter{ clickedItemRun: Run ->
-            Toast.makeText(requireContext(), "Clicked item: ${clickedItemRun.id}",
-                Toast.LENGTH_SHORT).show()
-        }
+        runAdapter = RunAdapter()
 
         binding.rvRuns.apply {
             adapter = runAdapter
