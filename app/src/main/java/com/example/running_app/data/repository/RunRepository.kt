@@ -1,7 +1,7 @@
-package com.example.running_app.repositories
+package com.example.running_app.data.repository
 
-import com.example.running_app.db.Run
-import com.example.running_app.db.RunDAO
+import com.example.running_app.data.local.db.RunDAO
+import com.example.running_app.data.model.Run
 import javax.inject.Inject
 
 class RunRepository @Inject constructor(val runDAO: RunDAO) {

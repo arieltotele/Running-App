@@ -1,4 +1,4 @@
-package com.example.running_app.db
+package com.example.running_app.data.model
 
 data class UserProfile(
     val name: String,

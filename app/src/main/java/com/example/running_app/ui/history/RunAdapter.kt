@@ -1,4 +1,4 @@
-package com.example.running_app.ui.adapters
+package com.example.running_app.ui.history
 
 import android.icu.util.Calendar
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.running_app.data.model.Run
 import com.example.running_app.databinding.ItemRunBinding
-import com.example.running_app.db.Run
 import com.example.running_app.util.TrackingUtility
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -77,4 +77,3 @@ class RunAdapter (private val onItemClicked: (Run) -> Unit = {})
         }
     }
 }
-

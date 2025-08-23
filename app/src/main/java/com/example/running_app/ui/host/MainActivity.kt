@@ -1,4 +1,4 @@
-package com.example.running_app.ui
+package com.example.running_app.ui.host
 
 import android.Manifest
 import android.content.Intent
@@ -15,10 +15,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.running_app.BuildConfig
 import com.example.running_app.R
 import com.example.running_app.databinding.ActivityMainBinding
-import com.example.running_app.ui.viewmodels.UserProfileViewModel
-import com.example.running_app.util.Constants.ACTION_SHOW_TRACKING_FRAGMENT
-import com.example.running_app.util.Constants.REQUEST_CODE_LOCATION_PERMISSIONS
-import com.example.running_app.util.Constants.REQUEST_CODE_NOTIFICATION_PERMISSIONS
+import com.example.running_app.ui.viewmodel.UserProfileViewModel
+import com.example.running_app.util.Constants
 import com.example.running_app.util.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -26,7 +24,7 @@ import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
+class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navHostFragment: NavHostFragment
@@ -64,10 +62,10 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
         }
 
         userProfileViewModel.userProfile.observe(this, Observer { userProfile ->
-            if (userProfile != null && userProfile.weight > 0f){
+            if (userProfile != null && userProfile.weight > 0f) {
                 binding.tvToolbarTitle.text = "Let's go, ${userProfile.name}!"
-            }else{
-                Timber.d( "User profile is null or weight is not valid: ${userProfile?.weight}" )
+            } else {
+                Timber.Forest.d("User profile is null or weight is not valid: ${userProfile?.weight}")
             }
         })
 
@@ -80,7 +78,7 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
     }
 
     private fun navigateToTrackingFragmentIfNeeded(intent: Intent?){
-        if (intent?.action == ACTION_SHOW_TRACKING_FRAGMENT){
+        if (intent?.action == Constants.ACTION_SHOW_TRACKING_FRAGMENT){
             navHostFragment.findNavController().navigate(R.id.action_global_trackingFragment)
         }
     }
@@ -92,7 +90,7 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
             EasyPermissions.requestPermissions(
                 this,
                 "You need to accept location permissions to use this app.",
-                REQUEST_CODE_NOTIFICATION_PERMISSIONS,
+                Constants.REQUEST_CODE_NOTIFICATION_PERMISSIONS,
                 Manifest.permission.POST_NOTIFICATIONS
             )
         }
@@ -105,7 +103,7 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
             EasyPermissions.requestPermissions(
                 this,
                 "You need to \"Allow all the time\" to track runs in background.",
-                REQUEST_CODE_LOCATION_PERMISSIONS,
+                Constants.REQUEST_CODE_LOCATION_PERMISSIONS,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                 Manifest.permission.FOREGROUND_SERVICE_LOCATION
             )
@@ -113,7 +111,7 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
             EasyPermissions.requestPermissions(
                 this,
                 "You need to accept location permissions to use this app.",
-                REQUEST_CODE_LOCATION_PERMISSIONS,
+                Constants.REQUEST_CODE_LOCATION_PERMISSIONS,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
             )

@@ -1,4 +1,4 @@
-package com.example.running_app.db
+package com.example.running_app.data.local.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.running_app.data.model.Run
 
 @Dao
 interface RunDAO {

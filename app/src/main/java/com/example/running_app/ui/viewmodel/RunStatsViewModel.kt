@@ -1,21 +1,21 @@
-package com.example.running_app.ui.viewmodels
+package com.example.running_app.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.example.running_app.db.Run
-import com.example.running_app.repositories.RunRepository
+import com.example.running_app.data.model.Run
+import com.example.running_app.data.repository.RunRepository
 import com.example.running_app.util.SortType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RunMainViewModel @Inject constructor(val runRepository: RunRepository):ViewModel() {
+class RunStatsViewModel @Inject constructor(val runRepository: RunRepository):ViewModel() {
 
-    private val _sortType = MutableLiveData<SortType>(SortType.DATE)
+    private val _sortType = MutableLiveData(SortType.DATE)
 
     val runs: LiveData<List<Run>> = _sortType.switchMap { sortType ->
         when (sortType) {

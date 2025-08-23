@@ -9,8 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.running_app.R
 import com.example.running_app.databinding.FragmentSettingsBinding
-import com.example.running_app.ui.MainActivity
-import com.example.running_app.ui.viewmodels.UserProfileViewModel
+import com.example.running_app.ui.viewmodel.UserProfileViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 

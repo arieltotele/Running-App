@@ -1,11 +1,10 @@
-package com.example.running_app.ui.fragments
+package com.example.running_app.ui.history
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -13,17 +12,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.running_app.R
 import com.example.running_app.databinding.FragmentRunBinding
-import com.example.running_app.db.Run
-import com.example.running_app.ui.MainActivity
-import com.example.running_app.ui.adapters.RunAdapter
-import com.example.running_app.ui.viewmodels.RunMainViewModel
+import com.example.running_app.ui.host.MainActivity
+import com.example.running_app.ui.viewmodel.RunStatsViewModel
 import com.example.running_app.util.SortType
 import com.example.running_app.util.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RunFragment : Fragment(R.layout.fragment_run) {
-    private val viewModel: RunMainViewModel by viewModels()
+    private val viewModel: RunStatsViewModel by viewModels()
     private var _binding: FragmentRunBinding? = null
     private val binding get() = _binding!!
     private lateinit var runAdapter: RunAdapter

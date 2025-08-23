@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/setupFragment"
-        android:name="com.example.running_app.ui.fragments.SetupFragment"
+        android:name="com.example.running_app.ui.setup.SetupFragment"
         android:label="fragment_setup"
         tools:layout="@layout/fragment_setup" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/runFragment"
-        android:name="com.example.running_app.ui.fragments.RunFragment"
+        android:name="com.example.running_app.ui.history.RunFragment"
         android:label="fragment_run"
         tools:layout="@layout/fragment_run" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/trackingFragment"
-        android:name="com.example.running_app.ui.fragments.TrackingFragment"
+        android:name="com.example.running_app.ui.tracking.TrackingFragment"
         android:label="fragment_tracking"
         tools:layout="@layout/fragment_tracking" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="com.example.running_app.ui.fragments.StatisticsFragment"
+        android:name="com.example.running_app.ui.statistics.StatisticsFragment"
         android:label="fragment_statistics"
         tools:layout="@layout/fragment_statistics" />
     <fragment

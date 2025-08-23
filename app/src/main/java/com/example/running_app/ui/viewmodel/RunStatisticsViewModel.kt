@@ -1,7 +1,7 @@
-package com.example.running_app.ui.viewmodels
+package com.example.running_app.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.running_app.repositories.RunRepository
+import com.example.running_app.data.repository.RunRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

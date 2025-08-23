@@ -1,10 +1,11 @@
-package com.example.running_app.util
+package com.example.running_app.ui.statistics
 
 import android.content.Context
 import android.icu.util.Calendar
 import android.view.LayoutInflater
+import com.example.running_app.data.model.Run
 import com.example.running_app.databinding.MarkerViewBinding
-import com.example.running_app.db.Run
+import com.example.running_app.util.TrackingUtility
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
@@ -18,7 +19,8 @@ class CustomMarkerView (val runs: List<Run>, context: Context, layoutId: Int) :
         private var binding: MarkerViewBinding? = null
 
     init {
-        binding = MarkerViewBinding.inflate(LayoutInflater.from(context),
+        binding = MarkerViewBinding.inflate(
+            LayoutInflater.from(context),
             this, true)
     }
 

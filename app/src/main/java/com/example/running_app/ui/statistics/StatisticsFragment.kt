@@ -1,4 +1,4 @@
-package com.example.running_app.ui.fragments
+package com.example.running_app.ui.statistics
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.running_app.R
 import com.example.running_app.databinding.FragmentStatisticsBinding
-import com.example.running_app.ui.viewmodels.RunStatisticsViewModel
-import com.example.running_app.util.CustomMarkerView
+import com.example.running_app.ui.viewmodel.RunStatisticsViewModel
 import com.example.running_app.util.TrackingUtility
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -88,7 +87,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 val totalDistanceString = "${totalDistanceNumber}km"
                 binding.tvTotalDistance.text = totalDistanceString
             }
-            })
+        })
 
         viewModel.totalAvgSpeed.observe(viewLifecycleOwner, Observer { totalAvgSpeed ->
             totalAvgSpeed.let {
@@ -113,8 +112,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                         it[i].avgSpeedInKMH
                     )
                 }
-                val barDataSet = BarDataSet(allAvgSpeeds,
-                    "Avg Speed Over Time").apply {
+                val barDataSet = BarDataSet(
+                    allAvgSpeeds,
+                    "Avg Speed Over Time"
+                ).apply {
                     valueTextColor = R.color.white
                     color = ContextCompat.getColor(requireContext(),
                         R.color.colorAccent)
@@ -122,8 +123,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
                 binding.barChart.data = BarData(barDataSet)
                 binding.barChart.marker =
-                    CustomMarkerView(it.reversed(), requireContext(),
-                        R.layout.marker_view)
+                    CustomMarkerView(
+                        it.reversed(), requireContext(),
+                        R.layout.marker_view
+                    )
                 binding.barChart.invalidate()
 
             }

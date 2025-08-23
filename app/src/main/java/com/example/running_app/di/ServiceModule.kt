@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.example.running_app.R
-import com.example.running_app.ui.MainActivity
+import com.example.running_app.ui.host.MainActivity
 import com.example.running_app.util.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import com.example.running_app.util.Constants.NOTIFICATION_CHANNEL_ID
 import com.google.android.gms.location.LocationServices

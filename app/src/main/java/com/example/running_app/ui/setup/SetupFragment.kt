@@ -1,4 +1,4 @@
-package com.example.running_app.ui.fragments
+package com.example.running_app.ui.setup
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.running_app.R
 import com.example.running_app.databinding.FragmentSetupBinding
-import com.example.running_app.ui.MainActivity
-import com.example.running_app.ui.viewmodels.UserProfileViewModel
+import com.example.running_app.ui.viewmodel.UserProfileViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 

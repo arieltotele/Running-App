@@ -1,4 +1,4 @@
-package com.example.running_app.ui.fragments
+package com.example.running_app.ui.tracking
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,12 +17,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.running_app.R
 import com.example.running_app.databinding.FragmentTrackingBinding
-import com.example.running_app.db.Run
+import com.example.running_app.data.model.Run
 import com.example.running_app.services.Polyline
 import com.example.running_app.services.TrackingService
-import com.example.running_app.ui.MainActivity
-import com.example.running_app.ui.viewmodels.RunMainViewModel
-import com.example.running_app.ui.viewmodels.UserProfileViewModel
+import com.example.running_app.ui.fragments.CancelRunTrackingDialog
+import com.example.running_app.ui.host.MainActivity
+import com.example.running_app.ui.viewmodel.RunStatsViewModel
+import com.example.running_app.ui.viewmodel.UserProfileViewModel
 import com.example.running_app.util.Constants.ACTION_PAUSE_SERVICE
 import com.example.running_app.util.Constants.ACTION_START_OR_RESUME_SERVICE
 import com.example.running_app.util.Constants.ACTION_STOP_SERVICE
@@ -34,7 +35,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -44,7 +44,7 @@ const val CANCEL_TRACKING_DIALOG_TAG = "CancelDialog"
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment() {
-    private val runMainViewModel: RunMainViewModel by viewModels()
+    private val runStatsViewModel: RunStatsViewModel by viewModels()
     private val userProfileViewModel: UserProfileViewModel by viewModels()
 
     private var _binding: FragmentTrackingBinding? = null
@@ -238,7 +238,7 @@ class TrackingFragment : Fragment() {
                     bitmap, dateTimestamp, averageSpeed,
                     distanceInMeters, currentTimeInMillis, caloriesBurned
                 )
-            runMainViewModel.insertRun(newRun)
+            runStatsViewModel.insertRun(newRun)
 
             Snackbar.make(requireView(), "Run saved successfully",
                 Snackbar.LENGTH_LONG).show()

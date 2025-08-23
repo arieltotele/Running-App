@@ -1,13 +1,10 @@
-package com.example.running_app.ui.viewmodels
+package com.example.running_app.ui.viewmodel
 
-import androidx.activity.result.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.running_app.repositories.UserProfileRepository
+import com.example.running_app.data.repository.UserProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

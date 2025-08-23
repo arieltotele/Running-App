@@ -1,4 +1,4 @@
-package com.example.running_app.db
+package com.example.running_app.data.model
 
 import android.graphics.Bitmap
 import androidx.room.Entity

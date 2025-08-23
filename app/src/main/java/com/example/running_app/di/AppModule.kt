@@ -2,7 +2,7 @@ package com.example.running_app.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.running_app.db.RunDatabase
+import com.example.running_app.data.local.db.RunDatabase
 import com.example.running_app.util.Constants.RUN_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
